@@ -83,4 +83,20 @@ public class MyLinkedList<T> {
         }
         _length++;
     }
+
+    public void push(Iterable<T> values) {
+        MyLinkedList<T> tmp = new MyLinkedList<>(values);
+        tmp.tail.next = head;
+        head.prev = tmp.tail;
+        head = tmp.head;
+        _length += tmp._length;
+    }
+
+    public void add(Iterable<T> values) {
+        MyLinkedList<T> tmp = new MyLinkedList<>(values);
+        tail.next = tmp.head;
+        tmp.head.prev = tail;
+        tail = tmp.tail;
+        _length += tmp._length;
+    }
 }
