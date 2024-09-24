@@ -62,4 +62,25 @@ public class MyLinkedList<T> {
         }
         return result.toString();
     }
+
+    public void push(T value) {
+        Node<T> newNode = new Node<>(value, null, head);
+        if (head != null) {
+            head.prev = newNode;
+        } else {
+            tail = newNode;
+        }
+        head = newNode;
+        _length++;
+    }
+
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value,tail,null);
+        if (head == null) {
+            tail = head = newNode;
+        } else {
+            tail =  tail.next = newNode;
+        }
+        _length++;
+    }
 }

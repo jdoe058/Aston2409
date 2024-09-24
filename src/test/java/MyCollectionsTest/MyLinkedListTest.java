@@ -21,4 +21,15 @@ public class MyLinkedListTest {
         assertEquals("Linked list (5) : 1 2 3 5 asd ", list3.toString());
     }
 
+    @Test
+    public void addOneElementTest () {
+        MyLinkedList<String> list1 = new MyLinkedList<>(List.of("1", "2", "3", "5", "asd"));
+        MyLinkedList<String> list2 = new MyLinkedList<>(list1);
+
+        list1.push("4");
+        assertEquals("Linked list (6) : 4 1 2 3 5 asd ", list1.toString());
+
+        list2.add("test");
+        assertEquals("Linked list (6) : 1 2 3 5 asd test ", list2.toString());
+    }
 }
