@@ -63,6 +63,25 @@ public class MyLinkedList<T> {
         return result.toString();
     }
 
+
+    private Node<T> getNode (int index) {
+        if (index < 0 || index > _length) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node<T> currNode = head;
+        while (currNode != null && index-- > 0) {
+                currNode = currNode.next;
+        }
+
+        return currNode;
+    }
+
+    public T get(int index) {
+        return getNode(index).value;
+    }
+
+
     public void push(T value) {
         Node<T> newNode = new Node<>(value, null, head);
         if (head != null) {
@@ -99,4 +118,5 @@ public class MyLinkedList<T> {
         tail = tmp.tail;
         _length += tmp._length;
     }
+
 }
