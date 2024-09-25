@@ -119,4 +119,27 @@ public class MyLinkedList<T> {
         _length += tmp._length;
     }
 
+
+    public void add (T value, int index) {
+        if (index == 0) {
+            push(value);
+        } else {
+            Node<T> currentNode = getNode(index);
+            currentNode.prev.next = new Node<>(value, currentNode.prev, currentNode);
+            _length++;
+        }
+    }
+
+    public void add(Iterable<T> values, int index) {
+        if (index == 0) {
+            push(values);
+        } else {
+            MyLinkedList<T> tmp = new MyLinkedList<>(values);
+            Node<T> currentNode = getNode(index);
+            tmp.tail.next = currentNode.next;
+            currentNode.next = tmp.head;
+            tmp.head.prev = currentNode;
+            _length += tmp._length;
+        }
+    }
 }

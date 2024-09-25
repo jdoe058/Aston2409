@@ -41,6 +41,11 @@ public class MyLinkedListTest {
 
         list2.add("test");
         assertEquals("Linked list (6) : 1 2 3 5 asd test ", list2.toString());
+
+        list2.add("888", 2);
+        assertEquals("Linked list (7) : 1 2 888 3 5 asd test ", list2.toString());
+        list2.add("Hello", 0);
+        assertEquals("Linked list (8) : Hello 1 2 888 3 5 asd test ", list2.toString());
     }
 
     @Test
@@ -52,5 +57,10 @@ public class MyLinkedListTest {
         MyLinkedList<String> list2 = new MyLinkedList<>(List.of("1", "2", "3", "5", "asd"));
         list2.add(List.of("4", "2", "6"));
         assertEquals("Linked list (8) : 1 2 3 5 asd 4 2 6 ", list2.toString());
+
+        MyLinkedList<String> list3 = new MyLinkedList<>(List.of("1", "2", "3", "5", "asd"));
+        list3.add(List.of("4", "2", "6"), 2);
+        assertEquals("Linked list (8) : 1 2 3 4 2 6 5 asd ", list3.toString());
+
     }
 }
