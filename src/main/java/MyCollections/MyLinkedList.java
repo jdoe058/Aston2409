@@ -63,6 +63,7 @@ public class MyLinkedList<T> {
         return result.toString();
     }
 
+
     private Node<T> getNode (int index) {
         if (index < 0 || index > _length) {
             throw new IndexOutOfBoundsException();
@@ -78,6 +79,44 @@ public class MyLinkedList<T> {
 
     public T get(int index) {
         return getNode(index).value;
+    }
+
+
+    public void push(T value) {
+        Node<T> newNode = new Node<>(value, null, head);
+        if (head != null) {
+            head.prev = newNode;
+        } else {
+            tail = newNode;
+        }
+        head = newNode;
+        _length++;
+    }
+
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value,tail,null);
+        if (head == null) {
+            tail = head = newNode;
+        } else {
+            tail =  tail.next = newNode;
+        }
+        _length++;
+    }
+
+    public void push(Iterable<T> values) {
+        MyLinkedList<T> tmp = new MyLinkedList<>(values);
+        tmp.tail.next = head;
+        head.prev = tmp.tail;
+        head = tmp.head;
+        _length += tmp._length;
+    }
+
+    public void add(Iterable<T> values) {
+        MyLinkedList<T> tmp = new MyLinkedList<>(values);
+        tail.next = tmp.head;
+        tmp.head.prev = tail;
+        tail = tmp.tail;
+        _length += tmp._length;
     }
 
 }
