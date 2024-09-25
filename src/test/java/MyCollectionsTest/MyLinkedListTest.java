@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 public class MyLinkedListTest {
 
@@ -21,4 +22,12 @@ public class MyLinkedListTest {
         assertEquals("Linked list (5) : 1 2 3 5 asd ", list3.toString());
     }
 
+    @Test
+    public void getTest() {
+        MyLinkedList<Integer> list1 = new MyLinkedList<>(List.of(1, 2, 3));
+        int x = list1.get(1);
+        assertEquals(2, x);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> list1.get(4));
+    }
 }
