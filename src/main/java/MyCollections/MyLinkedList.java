@@ -30,24 +30,29 @@ public class MyLinkedList<T> {
     public MyLinkedList(Iterable<T> elements) {
         this();
         for (T elem : elements) {
-            if (head == null) {
-                tail = head = new Node<>(elem);
-            } else {
-                tail = tail.next = new Node<>(elem, tail, null);
-            }
+            tail = head == null ? (head = new Node<>(elem))
+                : (tail.next = new Node<>(elem, tail, null));
             _length++;
         }
     }
 
     public MyLinkedList(MyLinkedList<T> list) {
+        this(list, 0, -1);
+    }
+
+    public MyLinkedList(MyLinkedList<T> list, int index) {
+        this(list, index, -1);
+    }
+
+    public MyLinkedList(MyLinkedList<T> list, int index, int count) {
         this();
-        Node<T> currentNode = list.head;
-        while (currentNode != null) {
-            if (head == null) {
-                tail = head = new Node<>(currentNode.value);
-            } else {
-                tail = tail.next = new Node<>(currentNode.value, tail, null);
-            }
+        if (count > 0 && (index + count > list._length)) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node<T> currentNode = list.getNode(index);
+        while (currentNode != null && (count < 0 || count-- > 0)) {
+            tail = head == null ? (head = new Node<>(currentNode.value))
+                : (tail.next = new Node<>(currentNode.value, tail, null));
             _length++;
             currentNode = currentNode.next;
         }
@@ -62,7 +67,6 @@ public class MyLinkedList<T> {
         }
         return result.toString();
     }
-
 
     private Node<T> getNode (int index) {
         if (index < 0 || index > _length) {
@@ -80,7 +84,6 @@ public class MyLinkedList<T> {
     public T get(int index) {
         return getNode(index).value;
     }
-
 
     public void push(T value) {
         Node<T> newNode = new Node<>(value, null, head);
@@ -189,5 +192,20 @@ public class MyLinkedList<T> {
         _length--;
 
         return currentNode.value;
+    }
+
+    public MyLinkedList<T> remove (int index, int count) {
+        Node<T> lastNode = getNode(index+count);
+        var tmp = new MyLinkedList<>(this, index, count);
+        if (index == 0) {
+            head = lastNode;
+            lastNode.prev = head;
+        } else {
+            Node<T> firstNode = getNode(index-1);
+            firstNode.next = lastNode;
+            lastNode.prev = firstNode;
+        }
+        _length -= count;
+        return tmp;
     }
 }

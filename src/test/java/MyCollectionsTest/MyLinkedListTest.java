@@ -20,6 +20,12 @@ public class MyLinkedListTest {
 
         MyLinkedList<String> list3 = new MyLinkedList<>(list2);
         assertEquals("Linked list (5) : 1 2 3 5 asd ", list3.toString());
+
+        MyLinkedList<String> list4 = new MyLinkedList<>(list2, 1);
+        assertEquals("Linked list (4) : 2 3 5 asd ", list4.toString());
+
+        MyLinkedList<String> list5 = new MyLinkedList<>(list2, 1, 3);
+        assertEquals("Linked list (3) : 2 3 5 ", list5.toString());
     }
 
     @Test
@@ -84,5 +90,15 @@ public class MyLinkedListTest {
 
         list1.clear();
         assertEquals("Linked list (0) : ", list1.toString());
+
+        var list2 = new MyLinkedList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+        var list3 = list2.remove(2, 4);
+        assertEquals("Linked list (6) : 0 1 6 7 8 9 ", list2.toString());
+        assertEquals("Linked list (4) : 2 3 4 5 ", list3.toString());
+
+        var list4 = list2.remove(0, 2);
+        assertEquals("Linked list (4) : 6 7 8 9 ", list2.toString());
+        assertEquals("Linked list (2) : 0 1 ", list4.toString());
+
     }
 }
