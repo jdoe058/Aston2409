@@ -208,4 +208,21 @@ public class MyLinkedList<T> {
         _length -= count;
         return tmp;
     }
+
+    public static <T extends Comparable> void sort(MyLinkedList<T> list) {
+        Node<T> j = list.head;
+
+        while (j.next != null) {
+            Node<T> i = j.next;
+            while (i != null) {
+                if (i.value.compareTo(j.value) < 0) {
+                    var tmp = i.value;
+                    i.value = j.value;
+                    j.value = tmp;
+                }
+                i = i.next;
+            }
+            j = j.next;
+        }
+    }
 }

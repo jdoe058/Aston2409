@@ -101,4 +101,11 @@ public class MyLinkedListTest {
         assertEquals("Linked list (2) : 0 1 ", list4.toString());
 
     }
+
+    @Test
+    public void sortTest() {
+        var list = new MyLinkedList<>(List.of(9, 1, 8, 3, 5, 4, 6, 7, 2, 0));
+        MyLinkedList.sort(list);
+        assertEquals("Linked list (10) : 0 1 2 3 4 5 6 7 8 9 ", list.toString());
+    }
 }
