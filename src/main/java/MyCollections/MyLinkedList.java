@@ -209,7 +209,7 @@ public class MyLinkedList<T> {
         return tmp;
     }
 
-    public static <T extends Comparable> void sort(MyLinkedList<T> list) {
+    public static <T extends Comparable<T>> void sort(MyLinkedList<T> list) {
         Node<T> j = list.head;
 
         while (j.next != null) {
