@@ -61,6 +61,28 @@ public class MyLinkedListTest {
         MyLinkedList<String> list3 = new MyLinkedList<>(List.of("1", "2", "3", "5", "asd"));
         list3.add(List.of("4", "2", "6"), 2);
         assertEquals("Linked list (8) : 1 2 3 4 2 6 5 asd ", list3.toString());
+    }
 
+    @Test
+    public void removeTest() {
+        MyLinkedList<String> list0 = new MyLinkedList<>();
+        assertThrows(IndexOutOfBoundsException.class, list0::pop);
+        assertThrows(IndexOutOfBoundsException.class, list0::remove);
+
+        MyLinkedList<String> list1 = new MyLinkedList<>(List.of("1", "2", "3", "5", "asd"));
+        String tmp = list1.pop();
+        assertEquals("Linked list (4) : 2 3 5 asd ", list1.toString());
+        assertEquals("1", tmp);
+
+        tmp = list1.remove();
+        assertEquals("Linked list (3) : 2 3 5 ", list1.toString());
+        assertEquals("asd", tmp);
+
+        tmp = list1.remove(1);
+        assertEquals("Linked list (2) : 2 5 ", list1.toString());
+        assertEquals("3", tmp);
+
+        list1.clear();
+        assertEquals("Linked list (0) : ", list1.toString());
     }
 }

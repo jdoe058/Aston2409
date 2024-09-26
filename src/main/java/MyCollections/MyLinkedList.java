@@ -142,4 +142,52 @@ public class MyLinkedList<T> {
             _length += tmp._length;
         }
     }
+
+    public T pop () {
+        if (head == null ) {
+            throw new IndexOutOfBoundsException();
+        }
+        T tmp = head.value;
+        head = head.next;
+        if (head == null) {
+            tail = null;
+        } else {
+            head.prev = null;
+        }
+        _length--;
+        return tmp;
+    }
+
+    public T remove () {
+        if (head == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        T tmp = tail.value;
+        tail = tail.prev;
+        if (tail == null) {
+            head = null;
+        } else {
+            tail.next = null;
+        }
+        _length--;
+        return tmp;
+    }
+
+    public void clear() {
+        tail = head = null;
+        _length = 0;
+    }
+
+    public T remove(int index) {
+        if (index == 0) {
+            return pop();
+        }
+
+        Node<T> currentNode = getNode(index);
+        currentNode.prev.next = currentNode.next;
+        currentNode.next.prev = currentNode.prev;
+        _length--;
+
+        return currentNode.value;
+    }
 }
