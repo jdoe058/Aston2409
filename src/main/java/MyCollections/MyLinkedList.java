@@ -2,6 +2,7 @@ package MyCollections;
 
 public class MyLinkedList<T> {
     private int _length;
+    private boolean _isSorted;
     private Node<T> head,
             tail;
 
@@ -25,10 +26,12 @@ public class MyLinkedList<T> {
     public MyLinkedList() {
         _length = 0;
         tail = head = null;
+        _isSorted = true;
     }
 
     public MyLinkedList(Iterable<T> elements) {
         this();
+        _isSorted = false;
         for (T elem : elements) {
             tail = head == null ? (head = new Node<>(elem))
                 : (tail.next = new Node<>(elem, tail, null));
@@ -49,6 +52,7 @@ public class MyLinkedList<T> {
         if (count > 0 && (index + count > list._length)) {
             throw new IndexOutOfBoundsException();
         }
+        _isSorted = list._isSorted;
         Node<T> currentNode = list.getNode(index);
         while (currentNode != null && (count < 0 || count-- > 0)) {
             tail = head == null ? (head = new Node<>(currentNode.value))
@@ -88,6 +92,7 @@ public class MyLinkedList<T> {
     public void push(T value) {
         Node<T> newNode = new Node<>(value, null, head);
         if (head != null) {
+            _isSorted = false;
             head.prev = newNode;
         } else {
             tail = newNode;
@@ -102,12 +107,14 @@ public class MyLinkedList<T> {
             tail = head = newNode;
         } else {
             tail =  tail.next = newNode;
+            _isSorted = false;
         }
         _length++;
     }
 
     public void push(Iterable<T> values) {
         MyLinkedList<T> tmp = new MyLinkedList<>(values);
+        _isSorted = false;
         tmp.tail.next = head;
         head.prev = tmp.tail;
         head = tmp.head;
@@ -116,6 +123,7 @@ public class MyLinkedList<T> {
 
     public void add(Iterable<T> values) {
         MyLinkedList<T> tmp = new MyLinkedList<>(values);
+        _isSorted = false;
         tail.next = tmp.head;
         tmp.head.prev = tail;
         tail = tmp.tail;
@@ -127,6 +135,7 @@ public class MyLinkedList<T> {
         if (index == 0) {
             push(value);
         } else {
+            _isSorted = false;
             Node<T> currentNode = getNode(index);
             currentNode.prev.next = new Node<>(value, currentNode.prev, currentNode);
             _length++;
@@ -137,6 +146,7 @@ public class MyLinkedList<T> {
         if (index == 0) {
             push(values);
         } else {
+            _isSorted = false;
             MyLinkedList<T> tmp = new MyLinkedList<>(values);
             Node<T> currentNode = getNode(index);
             tmp.tail.next = currentNode.next;
@@ -178,6 +188,7 @@ public class MyLinkedList<T> {
 
     public void clear() {
         tail = head = null;
+        _isSorted = true;
         _length = 0;
     }
 
@@ -210,8 +221,11 @@ public class MyLinkedList<T> {
     }
 
     public static <T extends Comparable<T>> void sort(MyLinkedList<T> list) {
-        Node<T> j = list.head;
+        if (list._isSorted) {
+            return;
+        }
 
+        Node<T> j = list.head;
         while (j.next != null) {
             Node<T> i = j.next;
             while (i != null) {
@@ -224,5 +238,6 @@ public class MyLinkedList<T> {
             }
             j = j.next;
         }
+        list._isSorted = true;
     }
 }
