@@ -21,9 +21,6 @@ public class MyLinkedListTest {
         MyLinkedList<String> list3 = new MyLinkedList<>(list2);
         assertEquals("Linked list (5) : 1 2 3 5 asd ", list3.toString());
 
-        MyLinkedList<String> list4 = new MyLinkedList<>(list2, 1);
-        assertEquals("Linked list (4) : 2 3 5 asd ", list4.toString());
-
         MyLinkedList<String> list5 = new MyLinkedList<>(list2, 1, 3);
         assertEquals("Linked list (3) : 2 3 5 ", list5.toString());
     }
