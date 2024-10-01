@@ -2,9 +2,10 @@ package MyCollections;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-public class MyLinkedList<T> {
+public class MyLinkedList<T> implements Iterable<T>{
 
     private int _length;
     final static public Set<MyLinkedList<?>> sorted = new HashSet<>();
@@ -14,7 +15,25 @@ public class MyLinkedList<T> {
     private Node<T> head,
             tail;
 
-    static class Node<T> {
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<>() {
+            Node<T> currentNode = new Node<>(null,null, head);
+
+            @Override
+            public boolean hasNext() {
+                return currentNode.next != null;
+            }
+
+            @Override
+            public T next() {
+                currentNode = currentNode.next;
+                return currentNode.value;
+            }
+        };
+    }
+
+    static public class Node<T> {
         T value;
         Node<T> next,
                 prev;
@@ -59,23 +78,17 @@ public class MyLinkedList<T> {
             }
             _length++;
         }
-        if (!isSorted)
+        if (!isSorted) {
             sorted.remove(this);
-    }
-
-    public MyLinkedList(MyLinkedList<T> list) {
-        this(list, 0, -1);
-    }
-
-    public MyLinkedList(MyLinkedList<T> list, int index) {
-        this(list, index, -1);
+        }
     }
 
     public MyLinkedList(MyLinkedList<T> list, int index, int count) {
         this();
-        if (count > 0 && (index + count > list._length)) {
+        if (count < 0 && (index + count > list._length)) {
             throw new IndexOutOfBoundsException();
         }
+
         if (sorted.contains(this) && !sorted.contains(list)) {
             sorted.remove(this);
         }
@@ -100,7 +113,7 @@ public class MyLinkedList<T> {
     }
 
     private Node<T> getNode (int index) {
-        if (index < 0 || index > _length) {
+        if (index < 0 || index >= _length) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -184,15 +197,18 @@ public class MyLinkedList<T> {
         if (index == 0) {
             push(values);
         } else {
-            MyLinkedList<T> tmp = new MyLinkedList<>(values, this.comporator);
+            MyLinkedList<T> tmp = new MyLinkedList<>(values, comporator);
             Node<T> currentNode = getNode(index);
+            if (!sorted.contains(this) || !sorted.contains(tmp)
+                    || comporator.compare(currentNode.value, tmp.head.value) > 0
+                    || comporator.compare(currentNode.value, tmp.tail.value) < 0) {
+                sorted.remove(this);
+            }
+
             tmp.tail.next = currentNode.next;
             currentNode.next = tmp.head;
             tmp.head.prev = currentNode;
             _length += tmp._length;
-            if (sorted.contains(this) && true) {
-                sorted.remove(this);
-            }
         }
     }
 
